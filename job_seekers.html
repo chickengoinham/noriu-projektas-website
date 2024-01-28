@@ -1,50 +1,65 @@
+<!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <link rel="ico" src="headmain.ico">
-        <link rel="stylesheet" href="css.css">
-        <link rel="stylesheet" href="js.js">
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css.css">
+    <link rel="stylesheet" href="js.js">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>D.N | Seeking Jobs</title>
-  </head>
-  <hr class="hr2">
-  <header>
-    <div style="margin-left: 0%; width: 5%; border: 5px solID #d4c7c7; border-style: inset; position: absolute;">
-      <img  src="headmain.png" onclick="location.href = './index.html'">
+</head>
+
+<hr class="hr2">
+
+<header>
+    <div style="margin-left: 0%; width: 5%; border: 5px solid #d4c7c7; border-style: inset; position: absolute;">
+        <img src="headmain.png" onclick="location.href = './index.html'">
     </div>
     <h2 class="center; headertext">Seeking for a Job</h2>
-  </header>
-  <body style="align-items: center;color: rgb(0, 0, 0);font-family:tahoma;font-weight:bold; background-image: url(background_1920x1080_noriu.jpg);">
-    <TABLE class="center" BORDER = "0" style="align-items: center; align-content: center; text-align: left;" >
-      <TR>
-        <TD><img src="divine3.png" class="salepic"></TD>
-        <td>
-          <h1 class="headtext"> No. 868154167 | Spongebob Squarepants</h1>
-          <p class="paratext">Incoherent rambling about burgers</p>
-        </td>
-      </TR>
-      <TR>
-        <TD><img src="divine3.png" class="salepic"></TD>
-        <td>
-          <h1 class="headtext"> No. 868154167 | Peter McDoNothing</h1>
-          <p class="paratext"> Proffesional lazy lad</p>
-        </td>
-      </TR>
-      <TR>
-        <TD><img src="1-2-car-wheel-free-download-png.png" class="salepic"></TD>
-        <td>
-          <h1 class="headtext">Special rims for Nissan GTR R35</h1>
-          <h2 class="paratext">These bad boys have acted in every fast and furious movie, will do anything for money</h2>
-          <h3 class="headtext">Discord: NISSANGTR#696934</h3>
-        </td>
-      </TR>
-    </TABLE>
-      <br>
-      <br>
+</header>
+
+<body style="align-items: center;color: rgb(0, 0, 0);font-family:tahoma;font-weight:bold; background-image: url(background_1920x1080_noriu.jpg);">
+    <table class="center" border="0" style="align-items: center; align-content: center; text-align: left;" id="jobTable">
+        <!-- Table content will be dynamically generated using JavaScript -->
+    </table>
+    <br>
+    <br>
     <div id="footer" style="text-align: center;">
-      <hr class="hr2" >
-      Sponsored by The Shadow Government
+        <hr class="hr2">
+        Sponsored by The Shadow Government
     </div>
-  </body>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Fetch JSON data from a file
+            fetch('data2.json')
+                .then(response => response.json())
+                .then(jsonData => {
+                    // Function to create a table row for each job entry
+                    function createTableRow(job) {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `<td><img src="${job.image}" class="salepic"></td>
+                                      <td>
+                                        <h1 class="headtext"> No. ${job.number} | ${job.title}</h1>
+                                        <p class="paratext">${job.description}</p>
+                                      </td>`;
+                        return row;
+                    }
+
+                    // Get the table element
+                    const jobTable = document.getElementById("jobTable");
+
+                    // Populate the table with data from JSON
+                    jsonData.forEach(job => {
+                        const row = createTableRow(job);
+                        jobTable.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching JSON data:', error));
+        });
+    </script>
+</body>
+
 </html>

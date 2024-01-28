@@ -1,44 +1,56 @@
+<!DOCTYPE html>
 <html lang="en" style="font-family: Times New Roman;">
-  <head>
+ <head>
     <link rel="ico" src="headmain.ico">
-        <link rel="stylesheet" href="css.css">
-        <link rel="stylesheet" href="js.js">
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css.css">
+    <link rel="stylesheet" href="js.js">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>D.N | Sales</title>
-  </head>
-  <hr class="hr2">
-  <header>
-    <div style="margin-left: 0%; border: 5px #3630a3; width: 5%; border: 5px solID #d4c7c7">
-      <img  src="headmain.png" onclick="location.href = './index.html'">
+ </head>
+ <hr class="hr2">
+ <header>
+    <div style="margin-left: 0%; border: 5px #3630a3; width: 5%; border: 5px solid #d4c7c7">
+      <img src="headmain.png" onclick="location.href = './index.html'">
     </div>
-  </header>
-
-
+ </header>
 
 <!-- Button to home -->
-  <body style="align-items: center; font-family:'Bahnschrift';color: rgb(0, 0, 0);font-family:tahoma;font-weight:bold; background-image: url(background_1920x1080_noriu.jpg);">
-    <TABLE class="center" BORDER = "0" style="align-items: center; align-content: center; text-align: left;">
-        <TR>
-          <TD><img src="back.gif" width="100" height="100"></TD>
-          <TD> 86501237 |</TD>
-          <td> Bob Boberson |</td>
-          <td> Selling Computer Science dropouts for cheap </td>
-        </TR>
-
-        <TR>
-          <TD><img src="download.jpg" width="100" height="100"></TD>
-          <TD> 8656123745 |</TD>
-          <td> Benny McWheel |</td>
-          <td> Selling bootleg Computer Science projects</td>
-        </TR>
-      </TABLE>
-      <br>
-      <br>
+ <body style="align-items: center; font-family:'Bahnschrift';color: rgb(0, 0, 0);font-family:tahoma;font-weight:bold; background-image: url(background_1920x1080_noriu.jpg);">
+    <table class="center" border="0" style="align-items: center; align-content: center; text-align: left;" id="salesTable">
+        <!-- Table content will be dynamically generated using JavaScript -->
+    </table>
+    <br>
+    <br>
     <div id="footer" style="text-align: center;">
       <hr class="hr2">
       Sponsored by The Shadow Government
     </div>
-  </body>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('sales.json')
+                .then(response => response.json())
+                .then(jsonData => {
+                    function createTableRow(sale) {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `<td><img src="${sale.image}" width="100" height="100"></td>
+                                 <td>${sale.id} |</td>
+                                 <td>${sale.name} |</td>
+                                 <td>${sale.description}</td>`;
+                        return row;
+                    }
+
+                    const salesTable = document.getElementById("salesTable");
+
+                    jsonData.forEach(sale => {
+                        const row = createTableRow(sale);
+                        salesTable.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching JSON data:', error));
+        });
+    </script>
+ </body>
 </html>
